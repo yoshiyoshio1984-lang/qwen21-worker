@@ -9,7 +9,9 @@
 # - 2509 ワーカーの失敗（transformers 4.49.0 + Qwen2.5-VL の
 #   decoder_config.to_dict() エラー）とは別系統。
 #   こちらは Qwen3-VL-8B を使うので同じエラーは出ない見込み。
-#   transformers は 4.x の最新（4.57.6）に固定し、5.x は避ける。
+# - transformers は 5.x が必須。4.x は huggingface-hub<1.0 を要求し、
+#   diffusers 0.41.0 は huggingface-hub>=1.32.0 を要求するため、
+#   4.x ではビルドが ResolutionImpossible で失敗する。
 import base64
 import io
 import os
