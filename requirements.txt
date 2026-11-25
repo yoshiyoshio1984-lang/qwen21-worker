@@ -1,0 +1,22 @@
+# Qwen-Image-2.1 (Uncensored Omni, FP8) ワーカー用
+# torch/torchvision は必ずペアで同じ CUDA ビルドにすること。
+# （片方だけ違うと torchvision::nms エラーでワーカーが起動時に落ちる）
+# GPU は NVIDIA RTX PRO 6000 Blackwell (sm_120) のため torch 2.8.0+cu128 が必要。
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.8.0+cu128
+torchvision==0.23.0+cu128
+# diffusers 0.41.0 以降でないと QwenImage21Pipeline が無い（0.40.0 には無い）。
+diffusers==0.41.0
+# transformers は 4.x の最新に固定（5.x の破壊的変更を避ける）。
+# Qwen-Image-2.1 の text encoder は Qwen3-VL-8B。
+transformers==4.57.6
+accelerate==0.34.2
+# FP8-torchao の transformer を読むのに必要。
+# バージョンは pip が torch 2.8.0 と合うものを選ぶ（固定しない）。
+torchao
+runpod
+safetensors
+Pillow
+sentencepiece
+protobuf
+qwen-vl-utils
