@@ -1,10 +1,14 @@
 # Qwen-Image-2.1 (Uncensored Omni, FP8) ワーカー用
 # torch/torchvision は必ずペアで同じ CUDA ビルドにすること。
 # （片方だけ違うと torchvision::nms エラーでワーカーが起動時に落ちる）
-# GPU は NVIDIA RTX PRO 6000 Blackwell (sm_120) のため torch 2.8.0+cu128 が必要。
+# GPU は NVIDIA RTX PRO 6000 Blackwell (sm_120) のため cu128 ビルドが必要。
+# torch は 2.10.0 が必要：torchao の float8 モジュールが torch.nn.functional の
+# ScalingType を import するが、これは torch 2.10 で追加されたもので 2.8.0 には
+# 無い。torch 2.8.0 のままだとワーカーが起動時の import で落ちる
+# （2026-11-26 の RunPod ログで確認：cannot import name 'ScalingType'）。
 --extra-index-url https://download.pytorch.org/whl/cu128
-torch==2.8.0+cu128
-torchvision==0.23.0+cu128
+torch==2.10.0+cu128
+torchvision==0.25.0+cu128
 # diffusers 0.41.0 以降でないと QwenImage21Pipeline が無い（0.40.0 には無い）。
 diffusers==0.41.0
 # transformers は 5.x が必須。4.x（最新 4.57.6）は huggingface-hub<1.0 を
@@ -15,8 +19,9 @@ diffusers==0.41.0
 transformers==5.24.1
 accelerate==0.34.2
 # FP8-torchao の transformer を読むのに必要。
-# バージョンは pip が torch 2.8.0 と合うものを選ぶ（固定しない）。
-torchao
+# torchao は torch 2.10 とペアの 0.15.0 に固定する。固定しないと新しい
+# torchao（0.18.0 など）が入り、古い torch では import 時に落ちる。
+torchao==0.15.0
 runpod
 safetensors
 Pillow
