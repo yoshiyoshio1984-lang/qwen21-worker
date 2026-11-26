@@ -19,3 +19,5 @@ snapshot_download(
     ignore_patterns=["transformer/*"],
 )
 print("Baked models into HF cache.")
+# rebuild trigger 2026-11-26
+
