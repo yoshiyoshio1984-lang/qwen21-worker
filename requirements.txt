@@ -24,9 +24,13 @@ diffusers==0.41.0
 transformers==5.24.1
 accelerate==0.34.2
 # FP8-torchao の transformer を読むのに必要。
-# torchao は torch 2.10 とペアの 0.15.0 に固定する。固定しないと新しい
-# torchao（0.18.0 など）が入り、古い torch では import 時に落ちる。
-torchao==0.15.0
+# torchao は 0.18.0 に固定する。chatrlabs の FP8 チェックポイントは
+# Float8WeightOnlyConfig の granularity（PerRow）を含む形式で保存されて
+# おり、それを読めるのは granularity が追加された 0.18.0 のみ。
+# 0.15.0〜0.17.0 は granularity を受け付けず、モデル読み込み時に
+# ValueError で落ちる（2026-11-27 の RunPod ログと torchao ソースで確認）。
+# 0.18.0 は cu128 インデックスに無いため PyPI から取得される。
+torchao==0.18.0
 runpod
 safetensors
 Pillow
