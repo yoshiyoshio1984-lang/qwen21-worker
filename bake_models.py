@@ -21,3 +21,4 @@ snapshot_download(
 print("Baked models into HF cache.")
 # rebuild trigger 2026-11-26
 
+# detection test 2026-11-26 22:36
